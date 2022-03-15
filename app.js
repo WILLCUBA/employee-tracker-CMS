@@ -1,7 +1,7 @@
 const mysql = require('mysql2')
 const inquirer = require('inquirer');
 const consoleTable = require('console.table')
-
+const renderDepartments = require('./utils/dbquerys')
 
 //create the conection 
 const conn = mysql.createConnection({
@@ -19,23 +19,14 @@ const renderMenu = () => {
     }).then((choice) => {
         switch (choice.menu) {
             case 'View all departments':
-                viewAllDepartments()
+                renderDepartments()
+                renderMenu()
                 break;
             default:
                 break;
         }
     })
 }
-
-
-
-const viewAllDepartments = () => {
-    const sql =   `SELECT * FROM departments`; 
-    conn.promise().query(sql)
-        .then(([rows,fields]) => {
-            (console.table(rows))
-        })
-  };
 
 
 renderMenu()

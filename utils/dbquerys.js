@@ -1,9 +1,18 @@
-const db = require('../db/connection')
+const mysql = require('mysql2')
+const inquirer = require('inquirer')
+const cTable = require('console.table')
 
-renderDepartments = () => {
-    console.log("=========DEPARTMENTS========");
-    const sql = `SELECT * FROM departments`
-    db.promise().query(sql, (err,rows) => {
-        console.table(rows)
-    })
-}
+const conn = mysql.createConnection({
+    host:'localhost',user:'root',database:'employees',password:'93101231947*MySql'
+})
+
+
+const renderDepartments  = () => {
+    const sql =   `SELECT * FROM departments`; 
+    conn.promise().query(sql)
+        .then(([rows,fields]) => {
+            (console.table(rows))
+        })
+  };
+
+module.exports = renderDepartments
