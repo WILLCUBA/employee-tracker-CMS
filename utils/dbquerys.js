@@ -15,4 +15,17 @@ const renderDepartments  = () => {
         })
   };
 
-module.exports = renderDepartments
+const renderRoles = () => {
+    const sql = `SELECT * FROM roles;`
+    conn.promise().query(sql)
+    .then((rows => {
+        console.table(rows)
+    }))
+}
+
+
+
+module.exports = {
+    renderDepartments : renderDepartments,
+    renderRoles : renderRoles
+}
