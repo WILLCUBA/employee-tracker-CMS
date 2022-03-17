@@ -28,10 +28,15 @@ const renderMenu = () => {
                 break;
             case 'Add a role':
                 addRole()
-                
+                break;    
+            case 'Add an employee':
+                createEmployee()
+                break;
+            case 'Update an employee role':
+                addRole()
                 break;    
             default:
-                break;
+            break;
         }
     })
 }
@@ -106,6 +111,39 @@ const addRole = () => {
     })
 }
 
+
+//create an employee
+
+const createEmployee = () => {
+    return inquirer
+        .prompt([
+            {
+                type:'input',
+                name:'first_name',
+                message:'What is the first name of the new employee'
+            },
+            {
+                type:'input',
+                name:'last_name',
+                message:'What is the last name of the new employee'
+            },
+            {
+                type:'input',
+                name:'role_id',
+                message:'Enter the id of the role'
+            },
+            {
+                type:'input',
+                name:'manager_id',
+                message:'What is the id of the manager'
+            }
+        ])
+        .then((answer) => {
+            const params = [answer.first_name, answer.last_name,answer.role_id,answer.manager_id]
+            const sql = `INSERT INTO employee (first_name,last_name,role_id,manager_id) VALUES (?,?,?,?)`
+            conn.promise().query(sql,params)
+        })
+}
 
 
 renderMenu()
