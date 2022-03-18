@@ -33,7 +33,7 @@ const renderMenu = () => {
                 createEmployee()
                 break;
             case 'Update an employee role':
-                addRole()
+                updateEmployeeRole()
                 break;    
             default:
             break;
@@ -142,8 +142,46 @@ const createEmployee = () => {
             const params = [answer.first_name, answer.last_name,answer.role_id,answer.manager_id]
             const sql = `INSERT INTO employee (first_name,last_name,role_id,manager_id) VALUES (?,?,?,?)`
             conn.promise().query(sql,params)
+            console.log('The new employee have been created!!!');
+            renderMenu()
         })
 }
+
+
+const updateEmployeeRole = () => {
+    const sqlForEmployees = `SELECT employee.first_name,employee.last_name FROM employee` 
+    let employeesArr = []
+    conn.promise().query(sqlForEmployees)
+    .then(([rows,fields]) => {
+        const first_name = rows.first_name;
+        const last_name = rows.last_name;
+        employeesArr = rows.map(rows => `${rows.first_name} ${rows.last_name}`)
+        inquirer
+        .prompt([
+            {
+                type:'list',
+                name:'fullName',
+                message:"Which employee's role do you want to update",
+                choices: employeesArr
+            },
+            {
+                type:'input',
+                name:'roleId',
+                message:"Enter the id of employee's new role (If you want to add a new rode to this employee please first select ->add new role<- from the main menu"
+            }
+            ]).then((answer) => {
+                let sql = `UPDATE employee
+                SET role_id = ?
+                WHERE first_name= ? AND last_name= ?`;
+                let params = [answer.role_id,answer.fullName.split(" ")[0],answer.fullName.split(" ")[0]]
+                conn.promise().query(sql,params)
+                console.log(`Role updated successfully`);
+                renderMenu()
+        })
+    })
+}
+
+//buscar el empleado en la tabla y update el role
 
 
 renderMenu()
