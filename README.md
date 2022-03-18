@@ -34,3 +34,7 @@ This project is cover under the license type MIT
 [GitHub Repo](https://github.com/WILLCUBA)
 
 email: wilianpg93@gmail.com
+
+## LINK TO THE WALKTHROUGH VIDEO
+
+https://drive.google.com/file/d/1SDYMeTM8L-YBYQiTsXV-ddHboTeA2ATQ/view

@@ -139,11 +139,16 @@ const createEmployee = () => {
             }
         ])
         .then((answer) => {
+            if (answer.manager_id === "") {
+                answer.manager_id = null
+            }
             const params = [answer.first_name, answer.last_name,answer.role_id,answer.manager_id]
             const sql = `INSERT INTO employee (first_name,last_name,role_id,manager_id) VALUES (?,?,?,?)`
             conn.promise().query(sql,params)
-            console.log('The new employee have been created!!!');
-            renderMenu()
+            .then(([rows,fields]) => {
+                console.log('The new employee have been created!!!');
+                renderMenu()
+            })
         })
 }
 
